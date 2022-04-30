@@ -17,7 +17,7 @@ import {
   DescriptionListGroup,
   DescriptionListTerm,
 } from '@patternfly/react-core';
-import { useHistory, useParams } from 'react-router-dom';
+import { Switch, useHistory, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import _ from 'lodash';
 import { getTree } from '@app/utils/firebase';
@@ -31,12 +31,27 @@ const Tree: React.FunctionComponent = () => {
     const [loading, setloading] = useState(false)
     const [isModalOpen, setModalOpen] = React.useState(false)
     const [Data, setData] = useState<any>([])
+    const [EditAccess, setAccess] = useState(false);
 
     const handleModalToggle = () => {
       setModalOpen(isModalOpen? false : true)
     }
 
     useEffect(()=>{
+      const Access = localStorage.getItem("UserRole");
+        if(Access!==null){
+          switch(Access) {
+            case 'Master':
+              setAccess(true)
+              break;
+            case 'Admin':
+              setAccess(true)
+              break;
+            default:
+              setAccess(false)
+              break;
+          }
+        }
         if(params.id != ""){
             setloading(true)
             getTree(params.id).then((value)=>{
@@ -123,7 +138,7 @@ const Tree: React.FunctionComponent = () => {
            <EmptyStateBody>
              The Tree Data is not Present in DB Please ADD
            </EmptyStateBody>
-           <AddData />
+           {EditAccess && (<AddData />)}
            <AddDataModal  id={params.id} isOpen={isModalOpen} handleToggle={handleModalToggle} />
          </EmptyState>
         )}
