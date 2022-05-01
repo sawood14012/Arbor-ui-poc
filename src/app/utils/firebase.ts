@@ -39,6 +39,14 @@ async function addQR(URL: string, id: string){
       }
 }
 
+async function addTree(id: string, data : any){
+  try {
+      await setDoc(doc(db, "trees", id), data);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+}
+
 async function getQRs(){
     // eslint-disable-next-line no-var
     var result: any = []
@@ -49,6 +57,7 @@ async function getQRs(){
     });
     return result
 }
+
 async function getTree(id: string){
     const Document = await getDoc(doc(db, "trees", id))
     if(Document.exists()){
@@ -62,6 +71,7 @@ async function getTree(id: string){
 async function handleLogin(email, password){
 
   const user = await signInWithEmailAndPassword(auth, email, password)
+  
   return user;
 }
 
@@ -88,5 +98,6 @@ export {
     handleSignup,
     signOut,
     handleLogout,
-    onAuthStateChanged
+    onAuthStateChanged,
+    addTree
 }
