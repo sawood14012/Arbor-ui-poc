@@ -33,7 +33,7 @@ const routes: AppRouteConfig[] = [
   {
     component: Dashboard,
     exact: true,
-    label: 'Dashboard',
+    label: 'Scan QR',
     path: '/',
     title: 'PatternFly Seed | Main Dashboard',
   },
