@@ -39,12 +39,16 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
 
   const [user, setUser] = React.useState("");
   const { state, dispatch } = React.useContext(Context) 
+  const [EditAccess, setAccess] = React.useState(false);
 
-  const authListener = () => {
+  const authListener = (dispatch) => {
     onAuthStateChanged(auth, (user)=> {
       if(user != null){
         setUser(user.uid);
         // dispatch({type: "SET_USER", data: user.uid})
+        const Access = localStorage.getItem("UserRole");
+        dispatch({type: "SET_Role", data: Access}) 
+       
       } else {
         setUser("");
       }
@@ -52,8 +56,9 @@ const AppLayout: React.FunctionComponent<IAppLayout> = ({ children }) => {
   }
   
   useEffect(() => {
-    authListener();
-  },[])
+    
+    authListener(dispatch);
+  },[dispatch])
 
   function LogoImg() {
     // const history = useHistory();

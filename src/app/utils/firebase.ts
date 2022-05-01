@@ -72,6 +72,7 @@ async function handleSignup(email, password){
 }
 async function handleLogout(){
   signOut(auth).then(()=>{
+    localStorage.removeItem("UserRole")
     console.log("signout success")
   });
 }

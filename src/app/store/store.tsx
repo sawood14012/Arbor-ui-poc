@@ -11,6 +11,7 @@ const initialState = {
     error: 'error',
     alerts: [],
     user: '',
+    role: false,
 };
 
 export const Context = React.createContext({} as IContextProps);

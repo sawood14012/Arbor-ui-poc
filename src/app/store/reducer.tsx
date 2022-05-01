@@ -4,6 +4,7 @@ export interface StateContext {
     user: string;
     error: string;
     alerts: [];
+    role: boolean;
 }
 
 const Reducer = (state, action) => {
@@ -12,6 +13,11 @@ const Reducer = (state, action) => {
             return {
                 ...state,
                 QRs: action.data
+            };
+        case 'SET_Role':
+            return {
+                ...state,
+                role: disp(action.data)
             };
         case 'SET_USER':
             return {
@@ -37,5 +43,9 @@ const Reducer = (state, action) => {
             return state;
     }
 };
+
+function disp(data){
+    return data === 'User'? false: true
+}
 
 export default Reducer;

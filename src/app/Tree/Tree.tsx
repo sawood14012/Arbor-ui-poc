@@ -23,35 +23,24 @@ import _ from 'lodash';
 import { getTree } from '@app/utils/firebase';
 import logo from '@app/bgimages/tree.png';
 import { AddDataModal } from './Modal';
+import { Context } from '@app/store/store';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const Tree: React.FunctionComponent = () => {
+    const {state, dispatch} = React.useContext(Context)
     const params = useParams<{ id: string;}>();
     const [DataPresent, setDataPresent] = useState(false)
     const [loading, setloading] = useState(false)
     const [isModalOpen, setModalOpen] = React.useState(false)
     const [Data, setData] = useState<any>([])
-    const [EditAccess, setAccess] = useState(false);
+    const EditAccess = localStorage.getItem("UserRole")
+    
 
     const handleModalToggle = () => {
       setModalOpen(isModalOpen? false : true)
     }
 
     useEffect(()=>{
-      const Access = localStorage.getItem("UserRole");
-        if(Access!==null){
-          switch(Access) {
-            case 'Master':
-              setAccess(true)
-              break;
-            case 'Admin':
-              setAccess(true)
-              break;
-            default:
-              setAccess(false)
-              break;
-          }
-        }
         if(params.id != ""){
             setloading(true)
             getTree(params.id).then((value)=>{
@@ -202,7 +191,7 @@ const Tree: React.FunctionComponent = () => {
            <EmptyStateBody>
              The Tree Data is not Present in DB Please ADD
            </EmptyStateBody>
-           {EditAccess && (<AddData />)}
+           {state.role && (<AddData />)}
            <AddDataModal  id={params.id} isOpen={isModalOpen} handleToggle={handleModalToggle} />
          </EmptyState>
         )}

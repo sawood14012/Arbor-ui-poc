@@ -35,18 +35,22 @@ const Login = () => {
         setPassword(passwordValue)
     };
 
-    const onLoginButtonClick = event => {
+    function onLoginButtonClick(event){
         
       event.preventDefault();
       handleLogin(username,password).then((value) => {
-        dispatch({type: "SET_USER", data: value['uid']})
-        localStorage.setItem("UserRole", selectedType);
+        dispatch({type: "SET_USER", data: value['uid']}) 
+        dispatch({type: "SET_Role", data: selectedType}) 
+        localStorage.setItem("UserRole", selectedType)    
         history.push(location)
       })
-    };
+    }
 
-    const onSelectChange = (v,event) => {
-        setType(v)
+    const onSelectChange = (v,event) => 
+    {
+      
+      setType(v)
+
     }
   
 
